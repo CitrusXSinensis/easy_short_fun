@@ -1,2 +1,1 @@
-# short-and-fun
-short &amp; fun functions
+# easy_short_fun
