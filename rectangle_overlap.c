@@ -1,3 +1,6 @@
+#include <assert.h>
+#include <stdbool.h>
+
 struct point {
   int x;
   int y;
@@ -12,13 +15,13 @@ struct rectangle {
 const struct rectangle NO_OVERLAP = {{0, 0}, {0, 0}};
 ///////////////////////////////////
 
-
+// valid_rectangle(r) determine if r is a valid rectangle
 bool valid_rectangle(struct rectangle r) {
   if (r.ll.x < r.ur.x && r.ll.y < r.ur.y) return true;
   return false;
 }
 
-
+// equal_rectangles(r1, r2) determine if r1 and r2 are the same rectangle
 bool equal_rectangles(struct rectangle r1, struct rectangle r2) {
   if ((r1.ll.x == r2.ll.x) && (r1.ll.y == r2.ll.y)) {
     if ((r1.ur.x == r2.ur.x) && (r1.ur.y == r2.ur.y)) return true;
@@ -36,6 +39,8 @@ int max(int a, int b) {
   return b;
 }
 
+// overlap(r1, r2) return a rectangle structure which represents
+//   the overlapping area of r1 and r2
 struct rectangle overlap(struct rectangle r1, struct rectangle r2) {
   if ((r1.ur.x <= r2.ll.x) || (r1.ur.y <= r2.ll.y)) return NO_OVERLAP;
   if ((r2.ur.x <= r1.ll.x) || (r2.ur.y <= r1.ll.y)) return NO_OVERLAP;
@@ -47,7 +52,8 @@ struct rectangle overlap(struct rectangle r1, struct rectangle r2) {
   return r3;
 }
 
-
+// rotate_right(r) return a structure of rectangle which rotate r to the
+//   by 90 degrees
 struct rectangle rotate_right(struct rectangle r) {
   int ur_x = max(r.ll.y, r.ur.y);
   int ur_y = max(r.ll.x * -1, r.ur.x * -1);
@@ -64,6 +70,7 @@ int main(void) {
   struct rectangle b = {{0, -1}, {1, 0}};
   struct rectangle c = {{2, 4}, {3, 10}};
 
+  // simple assertion based tests
   assert(valid_rectangle(a));
   assert(valid_rectangle(b));
   assert(valid_rectangle(c));
