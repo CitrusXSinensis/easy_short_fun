@@ -10,6 +10,8 @@
     * check.set_file, for testing file output
 
     from www.student.cs.uwaterloo.ca
+    
+    Used for testing py files in this repo
 """
 
 import sys, os
