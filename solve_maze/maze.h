@@ -1,8 +1,6 @@
 #include <stdbool.h>
 
-// SEASHELL_READONLY
-
-// you MUST use these constants for the directions
+// Use these constants for the directions
 extern const int UP;
 extern const int DOWN;
 extern const int LEFT;
