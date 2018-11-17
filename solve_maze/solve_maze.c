@@ -1,6 +1,9 @@
 #include "maze.h"
 #include <stdbool.h>
 
+// This module is used for solving a simple maze, and prints out the directions
+//   of each steps for getting out from given maze
+
 // relative_r(n) return the relative right direction 
 //   of n
 int relative_r(int n) {
