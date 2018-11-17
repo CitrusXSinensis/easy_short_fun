@@ -2,8 +2,10 @@
 Library    AppiumLibrary
 
 *** Keywords ***
+[Documentation] This KW will scroll to given element in a page, and will stop and fail if scroll to the end of page without given element present
 Scroll Down to Element
     [Arguments]                         ${element}
+    # base case for dealing no element (empty page) case
     ${no_element}               Run Keyword And Return Status    Page Should Contain Element    id=noElementText
     Return From Keyword If      ${no_element}==${TRUE}    None
 
