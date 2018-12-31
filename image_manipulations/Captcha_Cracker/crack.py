@@ -26,5 +26,55 @@ def vector_crack(image,colour1,colour2=256):
             if img != "Thumbs.db" and img != ".DS_Store":
                 temp.append(buildvector(Image.open("./iconset/%s/%s"%(letter,img))))
             imageset.append({letter:temp})
+    im = Image.open("captcha.gif")
+    # create a new white image with the same size of captcha
+    im2 = Image.new("P",im.size,255)
 
+    im.convert("P")
+    temp = {}
+
+    for x in range(im.size[1]):
+        for y in range(im.size[0]):
+            pix = im.getpixel((y,x))
+            temp[pix] = pix
+            if pix == colour1 or pix == colour2:
+                # manipulate im2 to be balck-white image with only wanted element on it
+                im2.putpixel((y,x),0)
+
+    inletter = False
+    foundletter=False
+    start = 0
+    end = 0
+
+    letters = []
+
+    for y in range(im2.size[0]): # slice across
+        for x in range(im2.size[1]): # slice down
+            pix = im2.getpixel((y,x))
+            if pix != 255:
+                inletter = True
+
+    if foundletter == False and inletter == True:
+        foundletter = True
+        start = y
+
+    if foundletter == True and inletter == False:
+        foundletter = False
+        end = y
+        letters.append((start,end))
+
+
+    inletter=False
+
+    for letter in letters:
+        im3 = im2.crop((letter[0],0,letter[1],im2.size[1]))
+
+        guess = []
+
+        for image in imageset:
+            for x,y in image.iteritems():
+                if len(y) != 0:
+                    guess.append((v.relation(y[0],buildvector(im3)),x))
+        guess.sort(reverse=True)
+        print "",guess[0]
             
