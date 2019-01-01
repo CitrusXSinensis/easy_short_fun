@@ -26,3 +26,11 @@ def encodeImage(image,data):
     encodedImage.putdata(encodedPixels)
     return encodedImage
 
+def decodeImage(image):
+    pixels = list(image.getdata())
+    binary = ''.join([str(int(r>>1<<1!=r))+str(int(g>>1<<1!=g))+str(int(b>>1<<1!=b))+str(int(t>>1<<1!=t)) for (r,g,b,t) in pixels])
+    # find the end of encoded pixels
+    doubleNull = binary.find('0000000000000000')
+    endIndex = doubleNull+(8-(locationDoubleNull % 8)) if locationDoubleNull%8 != 0 else locationDoubleNull
+    data = binaryToString(binary[0:endIndex])
+    return data
