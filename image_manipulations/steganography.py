@@ -9,6 +9,7 @@ def transferToEven(image):
 
 def convertToBin(myInt):
     #remove '0b' in the return value of bin()，and add '0' in the beginning of the string until it has length=8
-    myBin = "0"*(8-(len(bin(myInt))-2))+bin(int).replace('0b','')
+    myBin = "0"*(8-(len(bin(myInt))-2))+bin(myInt).replace('0b','')
     return myBin
+
 
