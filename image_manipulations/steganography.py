@@ -12,6 +12,10 @@ def convertToBin(myInt):
     myBin = "0"*(8-(len(bin(myInt))-2))+bin(myInt).replace('0b','')
     return myBin
 
+def decodeBinToStr(myBin):
+    string = [chr(int(aBin,2)) for aBin in [myBin[i:i+8] for i in range(0, len(myBin), 8)]]
+    return ''.join(string)
+
 def encodeImage(image,data):
     evenImage = transferToEven(image) # get copy of image with lsb changed to 0
     binData = ''.join(map(convertToBin,bytearry(data,'utf-8')))
