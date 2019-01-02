@@ -98,3 +98,34 @@ class VideoToChar(CharFrame):
                 elif hasattr(stream, 'write'):
                         self.streamOut = stream.write
                         self.streamFlush = stream.flush
+
+		old_settings = None
+		breakflag = None
+		fd = sys.stdin.fileno()
+
+		def getChar():
+			nonlocal breakflag
+			nonlocal old_settings
+
+			old_settings = termios.tcgetattr(fd)
+			tty.setraw(sys.stdin.fileno())
+			ch = sys.stdin.read(1)
+			breakflag = True if ch else False
+
+		getchar = threading.Thread(target=getChar)
+		getchar.daemon = True
+		getchar.start()
+		rows = len(self.charVideo[0])//os.get_terminal_size()[0]
+		for frame in self.charVideo:
+			if breakflag == True: break
+			self.streamOut(frame)
+			self.streamFlush()
+			time.sleep(self.frameRate)
+			self.streamOut('\033[{}A\r'.format(rows-1))
+		termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+		self.streamOut('\033[{}B\033[K'.format(rows-1))
+		for i in range(rows-1):
+			self.streamOut('\033[1A')
+			self.streamOut('\r\033[K')
+		msg = 'Process interrupted\n' if breakflag else 'Finished\n'
+		self.streamOut(msg)
