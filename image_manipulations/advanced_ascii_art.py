@@ -75,3 +75,14 @@ class VideoToChar(CharFrame):
 			charFrame = self.convertFrame(frame, os.get_terminal_size(), fill=True)
 			self.charVideo.append(charFrame)
 		cap.release()
+
+        def export(self, filepath):
+                if not self.charVideo: return
+                with open(filepath,'w') as f:
+                        for frame in self.charVideo:
+                                f.write(frame + '\n')
+
+        def load(self, filepath):
+                self.charVideo = []
+                for i in  open(filepath):
+                        self.charVideo.append(i[:-1])
