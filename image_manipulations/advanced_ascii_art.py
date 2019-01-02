@@ -7,7 +7,7 @@ import tty
 import cv2
 import pyprind
 
-# CharFrame is used to conver each frame to frame made by chars
+# CharFrame is used to convert each frame to frame made by chars
 class CharFrame:
 	ascii_char = "#@$=+-\"'^` "
 
@@ -56,3 +56,22 @@ class ImageToChar(CharFrame):
 		self.streamFlush()
 		self.streamOut('\n')
 
+# VideoToChar is used to convert a video to ascii anime
+class VideoToChar(CharFrame):
+	charVideo = []
+	frameRate = 0.033
+	def __init__(self, path):
+		if path.endswith('txt'): self.load(path)
+		else: self.genCharVideo(path)
+
+	def genCharVideo(self, path):
+		self.charVideo = []
+		cap = cv2.VideoCapture(path)
+		self.frameRate = round(1/cap.get(5), 3)
+		frameCount = int(cap.get(7))
+		print('Generating assci art...')
+		for i in pyprind.prog_bar(range(frameCount)):
+			frame = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2GRAY)
+			charFrame = self.convertFrame(frame, os.get_terminal_size(), fill=True)
+			self.charVideo.append(charFrame)
+		cap.release()
