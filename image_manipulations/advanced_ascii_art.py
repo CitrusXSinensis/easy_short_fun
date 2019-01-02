@@ -86,3 +86,15 @@ class VideoToChar(CharFrame):
                 self.charVideo = []
                 for i in  open(filepath):
                         self.charVideo.append(i[:-1])
+
+        def play(self, stream = 1):
+		if not self.charVideo: return
+		if stream == 1 and os.isatty(sys.stdout.fileno()):
+                        self.streamOut = sys.stdout.write
+                        self.streamFlush = sys.stdout.flush
+                elif stream == 2 and os.isatty(sys.stderr.fileno()):
+                        self.streamOut = sys.stderr.write
+                        self.streamFlush = sys.stderr.flush
+                elif hasattr(stream, 'write'):
+                        self.streamOut = stream.write
+                        self.streamFlush = stream.flush
