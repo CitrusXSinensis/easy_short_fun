@@ -7,8 +7,9 @@ import tty
 import cv2
 import pyprind
 
+# CharFrame is used to conver each frame to frame made by chars
 class CharFrame:
-	ascii_char = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
+	ascii_char = "#@$=+-\"'^` "
 
 	# convert a single pixel to char
 	def pixelToChar(self, luminance):
