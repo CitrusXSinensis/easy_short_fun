@@ -129,3 +129,14 @@ class VideoToChar(CharFrame):
 			self.streamOut('\r\033[K')
 		msg = 'Process interrupted\n' if breakflag else 'Finished\n'
 		self.streamOut(msg)
+
+if __name__ == '__main__':
+        import argparse
+        parser = argparse.ArgumentParser()
+        parser.add_argument('file', help='Video file or charvideo file')
+        parser.add_argument('-e', '--export', nargs = '?', const = 'charvideo.txt', help='Export charvideo file')
+        args = parser.parse_args()
+        v2char = VideoToChar(args.file)
+        if args.export:
+        v2char.export(args.export)
+        v2char.play()
