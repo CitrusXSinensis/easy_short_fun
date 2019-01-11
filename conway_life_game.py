@@ -85,3 +85,38 @@ def stop():
             draw()
 
     return 'Stop'
+
+def move():
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == KEYDOWN and event.key == K_SPACE:
+            return 'Stop'
+        if event.type == KEYDOWN and event.key == K_r:
+            return 'Reset'
+        if event.type == MOUSEBUTTONDOWN:
+            pygame.button_down = True
+            pygame.button_type = event.button
+
+        if event.type == MOUSEBUTTONUP:
+            pygame.button_down = False
+
+        if pygame.button_down:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            col = mouse_x / Cell.size;
+            row = mouse_y / Cell.size;
+
+            if pygame.button_type == 1:
+                pygame.world[int(row)][int(col)] = 1
+            elif pygame.button_type == 3:
+                pygame.world[int(row)][int(col)] = 0
+            draw()
+
+    if time.clock() - pygame.clock_start > 0.02:
+        next_generation()
+        draw()
+        pygame.clock_start = time.clock()
+
+    return 'Move'
