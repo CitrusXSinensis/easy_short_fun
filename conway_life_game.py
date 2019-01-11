@@ -27,3 +27,12 @@ class Cell(pygame.sprite.Sprite):
         #   same size as cell
         self.rect = self.image.get_rect()
         self.rect.topleft = position
+
+# we redraw the world every step
+def draw():
+    screen.fill((0,0,0))
+    for col in range(pygame.world.shape[1]):
+        for row in range(pygame.world.shape[0]):
+            if pygame.world[int(row)][int(row)]:
+                cell_create = Cell((col * Cell.size,row * Cell.size))
+                screen.blit(cell_create.image,cell_create.rect)
