@@ -36,3 +36,17 @@ def draw():
             if pygame.world[int(row)][int(row)]:
                 cell_create = Cell((col * Cell.size,row * Cell.size))
                 screen.blit(cell_create.image,cell_create.rect)
+
+def next_frame():
+    count = sum(np.roll(np.roll(pygame.world, i, 0), j, 1)
+                     for i in (-1, 0, 1) for j in (-1, 0, 1)
+                     if (i != 0 or j != 0))
+
+    pygame.world = (count == 3) | ((pygame.world == 1) & (count == 2)).astype('int')
+
+# initialize the world
+def init():
+    pygame.world.fill(0)
+    draw()
+    return 'Stop'
+
