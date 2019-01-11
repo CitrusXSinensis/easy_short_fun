@@ -120,3 +120,23 @@ def move():
         pygame.clock_start = time.clock()
 
     return 'Move'
+
+if __name__ == '__main__':
+
+    # the FSM corresponding to 3 status: init, stop, move
+    state_actions = {
+            'Reset': init,
+            'Stop': stop,
+            'Move': move
+        }
+    state = 'Reset'
+
+    pygame.init()
+    pygame.display.set_caption('Conway\'s Game of Life')
+
+    screen = pygame.display.set_mode((WIDTH * Cell.size, HEIGHT * Cell.size))
+
+    while True: # main iteration
+
+        state = state_actions[state]()
+        pygame.display.update()
