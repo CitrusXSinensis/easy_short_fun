@@ -7,6 +7,8 @@ from pygame.locals import *
 HEIGHT = 60
 WIDTH = 120
 
+pygame.clock_start = 0
+
 # keep track of status of mouse and keyboard
 pygame.button_down = False
 
@@ -50,3 +52,36 @@ def init():
     draw()
     return 'Stop'
 
+# in pause state
+def stop():
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+        if event.type == KEYDOWN and event.key == K_RETURN:
+            return 'Move'
+
+        if event.type == KEYDOWN and event.key == K_r:
+            return 'Reset'
+
+        if event.type == MOUSEBUTTONDOWN:
+            pygame.button_down = True
+            pygame.button_type = event.button
+
+        if event.type == MOUSEBUTTONUP:
+            pygame.button_down = False
+
+        if pygame.button_down:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            col = mouse_x / Cell.size;
+            row = mouse_y / Cell.size;
+
+            if pygame.button_type == 1: # left mouse
+                pygame.world[int(row)][int(col)] = 1
+            elif pygame.button_type == 3: # right mouse
+                pygame.world[int(row)][int(col)] = 0
+            draw()
+
+    return 'Stop'
