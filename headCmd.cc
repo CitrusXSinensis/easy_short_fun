@@ -4,6 +4,21 @@
 #include <iostream>
 using namespace std;
 
+/* 
+A program similar to the Linux command head
+-n [NUM] If this argument is specified, then the program should print the first NUM lines of each file instead of the first 10
+-s [NUM] If this argument is specified, then the program should skip the first NUM lines of each file, before start printing the number of lines specified by -n (or the default 10 lines).
+
+For example:
+
+<./head -n 20 -s 5 myfile.txt>
+should skip the first 5 lines of myfile.txt, then print the next 20 lines to the standard output
+
+<./head>
+should read from stdin and write the first 10 lines read to stdout
+
+*/
+
 void getLines(int lineNum, int skipNum, string file) {
 	ifstream fin{ file };
 	string currentLine;
